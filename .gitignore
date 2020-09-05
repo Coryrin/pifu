@@ -2,3 +2,4 @@ credentials.py
 __pycache__
 .cache-coryrion
 transcribed_text.txt
+*.mp3
