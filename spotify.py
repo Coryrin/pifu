@@ -1,10 +1,9 @@
 import spotipy
 import spotipy.util as util
 import credentials
-import json
 from random import randint
 
-def play_music():
+def play_music(artist=None):
     scope = 'user-read-private user-read-playback-state user-modify-playback-state'
     redirect_uri = "https://www.google.co.uk/"
 
@@ -15,7 +14,17 @@ def play_music():
     devices = sp.devices()
     device_id = devices['devices'][0]['id']
 
-    current_track = sp.current_user_playing_track()
+    if artist:
+        songs_to_play = get_songs_by_artist(sp, artist)
+    else:
+        songs_to_play = get_songs_by_playlist(sp)
+
+    song_count = len(songs_to_play)
+    start = randint(0, song_count)
+
+    sp.start_playback(device_id, None, songs_to_play[start:])
+
+def get_songs_by_playlist(sp):
     user = sp.current_user()
     playlists = sp.user_playlists(user['id'])
 
@@ -28,10 +37,24 @@ def play_music():
         for song in songs['items']:
             songs_to_play.append(song['track']['uri'])
 
-    song_count = len(songs_to_play)
-    start = randint(0, song_count)
+    return songs_to_play
 
-    sp.start_playback(device_id, None, songs_to_play[start:])
+def get_songs_by_artist(sp, artist):
+    artist = sp.search(q='artist:' + artist, type='artist')
+    artist_id = artist['artists']['items'][0]['id']
+    albums = sp.artist_albums(artist_id)
+    
+    album_ids = []
+    for album in albums['items']:
+        album_ids.append(album['id'])
+
+    songs_to_play = []
+    for id in album_ids:
+        songs = sp.album_tracks(id)
+        for song in songs['items']:
+            songs_to_play.append(song['uri'])
+
+    return songs_to_play
 
 if __name__ == '__main__':
     play_music()
