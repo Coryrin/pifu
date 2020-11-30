@@ -1,0 +1,10 @@
+[
+    {
+        "project": "django",
+        "command": "django-admin startproject {}"
+    },
+    {
+        "project": "laravel",
+        "command": "laravel new {}"
+    }
+]

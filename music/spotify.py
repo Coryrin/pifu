@@ -1,6 +1,6 @@
 import spotipy
 import spotipy.util as util
-import credentials
+from . import credentials
 from random import randint
 
 def play_music(artist=None):
