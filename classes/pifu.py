@@ -1,21 +1,19 @@
-import speech_to_txt
-import jokes
-import os
 from music import spotify
 from voice_communication import voice_system
 from start_project import projects
-from light_control import lights
-from functions import *
 
-BASE_DIR = os.getcwd()
-def main():
+class Pifu:
+    """
+        The backbone of the project, Pifu, can listen for & execute commands.
 
-    listen = True
-    while listen:
-        text = speech_to_txt.detect_speech()
+        TODO: Move the logic of main.py into here, making Pifu its own class
+    """
 
-        if text is not None:
-            if "song" in text:
+    def __init__(self):
+        pass
+
+    def process_command(text):
+        if "song" in text:
                 by = None
                 position = text.find('by')
                 if position > -1:
@@ -40,10 +38,4 @@ def main():
 
             with open('voice_communication/transcribed_text.txt', 'a+') as f:
                 f.write(text + "\n")
-
-def reset_directory():
-    os.chdir(BASE_DIR)
-
-
-if __name__ == '__main__':
-    main()
+        

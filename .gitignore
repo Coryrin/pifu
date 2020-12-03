@@ -3,3 +3,4 @@ __pycache__
 .cache-coryrion
 transcribed_text.txt
 *.mp3
+.env

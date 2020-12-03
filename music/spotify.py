@@ -2,12 +2,17 @@ import spotipy
 import spotipy.util as util
 from . import credentials
 from random import randint
+from functions import env
 
 def play_music(artist=None):
     scope = 'user-read-private user-read-playback-state user-modify-playback-state'
     redirect_uri = "https://www.google.co.uk/"
 
-    token = util.prompt_for_user_token(credentials.USERNAME, scope, credentials.CLIENT_ID, credentials.CLIENT_SECRET, redirect_uri)
+    spotify_client_id = env("SPOTIFY_CLIENT_ID")
+    spotify_client_secret = env("SPOTIFY_CLIENT_SECRET")
+    spotify_username = env("SPOTIFY_USERNAME")
+
+    token = util.prompt_for_user_token(spotify_username, scope, spotify_client_id, spotify_client_secret, redirect_uri)
 
     sp = spotipy.Spotify(auth=token)
 
