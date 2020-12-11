@@ -46,4 +46,9 @@ Activate the pipenv shell
 pipenv shell
 ```
 
+If you have the 64 bit version of Python, then in the Pipfile you'll need the install path for pyaudio to point to "./whl/PyAudio-0.2.11-cp37-cp37m-win_amd64.whl", otherwise it should point to "./whl/PyAudio-0.2.11-cp37-cp37m-win32.whl"
 
+Install dependencies
+```
+pipenv install
+```
