@@ -1,9 +1,20 @@
+from inspect import getsourcefile
+import os.path
+import sys
+
+current_path = os.path.abspath(getsourcefile(lambda:0))
+current_dir = os.path.dirname(current_path)
+parent_dir = current_dir[:current_dir.rfind(os.path.sep)]
+
+sys.path.insert(0, parent_dir)
+
 from functions import env
+import requests
 
 def get_base_url():
     username = env("HUE_USERNAME")
     url = env("HUE_URL")
-    return f'{url}/{username}'
+    return f'{url}/api/{username}'
 
 def get_lights():
     url = get_base_url()
@@ -27,4 +38,4 @@ def toggle_lights(state):
     resp = requests.put(url, json=data)
 
 if __name__ == '__main__':
-    toggle_lights(True)
+    toggle_lights(False)

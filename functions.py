@@ -5,5 +5,5 @@ def env(name):
                 continue
             key, value = line.strip().split('=', 1)
             if key == name:
-                return value;
+                return value
             
