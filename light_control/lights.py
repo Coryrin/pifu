@@ -35,7 +35,7 @@ def toggle_lights(state):
         "on": state
     }
 
-    resp = requests.put(url, json=data)
+    return requests.put(url, json=data)
 
 if __name__ == '__main__':
     toggle_lights(False)

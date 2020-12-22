@@ -1,3 +1,5 @@
+import os
+
 def env(name):
     with open('.env', 'r') as file:
         for line in file:
@@ -6,4 +8,7 @@ def env(name):
             key, value = line.strip().split('=', 1)
             if key == name:
                 return value
+
+def change_directory(directory):
+    os.chdir(directory)
             
