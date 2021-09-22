@@ -11,6 +11,7 @@ spotipy = "*"
 pyaudio = {path = "./whl/PyAudio-0.2.11-cp37-cp37m-win_amd64.whl"}
 speechrecognition = "*"
 pyttsx3 = "*"
+discord-py = "*"
 
 [requires]
 python_version = "3.7"

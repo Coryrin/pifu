@@ -4,8 +4,7 @@ from classes.pifu import Pifu
 BASE_DIR = os.getcwd()
 def main():
     pifu = Pifu()
-    listen = True
-    while listen:
+    while pifu.listen_to_speech:
         pifu.listen()
 
 def reset_directory():
