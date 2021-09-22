@@ -1,6 +1,7 @@
 import os
 
-def env(name):
+
+def env(name: str) -> str:
     with open('.env', 'r') as file:
         for line in file:
             if line.startswith('#') or not line.strip():
@@ -9,6 +10,6 @@ def env(name):
             if key == name:
                 return value
 
-def change_directory(directory):
+
+def change_directory(directory: str):
     os.chdir(directory)
-            

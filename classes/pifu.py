@@ -1,28 +1,29 @@
+import os
+import jokes
+import speech_recognition as sr
+import pyttsx3
+from functions import *
+from light_control import lights
+from music import spotify
 from inspect import getsourcefile
 import os.path
 import sys
 
-current_path = os.path.abspath(getsourcefile(lambda:0))
+current_path = os.path.abspath(getsourcefile(lambda: 0))
 current_dir = os.path.dirname(current_path)
 parent_dir = current_dir[:current_dir.rfind(os.path.sep)]
 
 sys.path.insert(0, parent_dir)
 
-from music import spotify
-from light_control import lights
-from functions import *
-import pyttsx3
-import speech_recognition as sr
-import jokes
-import os
 
 BASE_DIR = os.getcwd()
+
 
 class Pifu:
     """
         The backbone of the project, Pifu, can listen for & execute commands.
     """
-    
+
     def __init__(self):
         self.listen_to_speech = True
 
@@ -39,11 +40,11 @@ class Pifu:
             return lights.toggle_lights(False, room)
         elif "on" in self.text:
             return lights.toggle_lights(True, room)
-            
+
         dim = self.text.find('dim')
         if dim > -1:
             return lights.adjust_brightness(True, room)
-        
+
         return lights.adjust_brightness(False, room)
 
     def process_command(self):
@@ -76,7 +77,7 @@ class Pifu:
             except Exception as e:
                 print(f"Error: {str(e)}")
 
-    def speek(self, text):
+    def speek(self, text: str):
         engine = pyttsx3.init()
         engine.setProperty('rate', 150)
         engine.say(text)
