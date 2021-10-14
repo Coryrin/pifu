@@ -28,9 +28,14 @@ class Pifu:
 
     def handle_play_music(self):
         by = None
+        device = None
         position = self.text.find('by')
         if position > -1:
             by = self.text[position + 2:].strip()
+        
+        position = self.text.find('on')
+        if position > -1:
+            device = self.text[position]
         return spotify.play_music(by)
 
     def handle_light_change(self):
@@ -52,7 +57,7 @@ class Pifu:
             self.handle_play_music()
         if "joke" in self.text:
             joke = jokes.get_random_joke()
-            self.speek(joke)
+            self.speak(joke)
         if "lights" in self.text:
             self.handle_light_change()
 
@@ -76,7 +81,7 @@ class Pifu:
             except Exception as e:
                 print(f"Error: {str(e)}")
 
-    def speek(self, text):
+    def speak(self, text):
         engine = pyttsx3.init()
         engine.setProperty('rate', 150)
         engine.say(text)
