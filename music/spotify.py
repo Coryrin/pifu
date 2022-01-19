@@ -16,6 +16,10 @@ def play_music(artist=None):
     sp = spotipy.Spotify(auth=token)
 
     devices = sp.devices()
+    
+    if len(devices) == 0:
+        return
+
     device_id = devices['devices'][0]['id']
 
     if artist:

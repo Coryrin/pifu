@@ -1,14 +1,10 @@
-from inspect import getsourcefile
-import os.path
 from music import spotify
 from light_control import lights
 from functions import *
 import pyttsx3
 import speech_recognition as sr
 import jokes
-import os
-
-BASE_DIR = os.getcwd()
+import requests
 
 class Pifu:
     """
@@ -17,6 +13,8 @@ class Pifu:
     
     def __init__(self):
         self.listen_to_speech = True
+        self.token = None
+        self.tts_engine = pyttsx3.init()
 
     def handle_play_music(self):
         by = None
@@ -72,10 +70,39 @@ class Pifu:
                 print(f"Error: {str(e)}")
 
     def speak(self, text):
-        engine = pyttsx3.init()
-        engine.setProperty('rate', 150)
-        engine.say(text)
-        engine.runAndWait()
+        self.tts_engine.setProperty('rate', 150)
+        self.tts_engine.say(text)
+        self.tts_engine.runAndWait()
+
+    def authenticate_portfolio(self):
+        url = 'https://www.corymeikle.com/api/auth/login'
+        username = env('PORTFOLIO_EMAIL')
+        password = env('PORTFOLIO_PASSWORD')
+
+        r = requests.post(url, data={
+            "email": username,
+            "password": password
+        })
+
+        self.token = r.json()['token']
 
     def check_messages(self):
-        pass
+        if not self.token:
+            self.authenticate_portfolio()
+
+        url = 'https://www.corymeikle.com/api/contact'
+
+        r = requests.get(url, headers={
+            'auth-token': self.token
+        })
+
+        messages = r.json()
+
+        for i in range(len(messages)):
+            message = messages[i]
+            name = message['name']
+            content = message['content']
+
+            if not message['is_read']:
+                self.speak(f'Message from {name}')
+                self.speak(content)
