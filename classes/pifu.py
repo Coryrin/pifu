@@ -1,13 +1,5 @@
 from inspect import getsourcefile
 import os.path
-import sys
-
-current_path = os.path.abspath(getsourcefile(lambda:0))
-current_dir = os.path.dirname(current_path)
-parent_dir = current_dir[:current_dir.rfind(os.path.sep)]
-
-sys.path.insert(0, parent_dir)
-
 from music import spotify
 from light_control import lights
 from functions import *
@@ -28,14 +20,11 @@ class Pifu:
 
     def handle_play_music(self):
         by = None
-        device = None
         position = self.text.find('by')
+
         if position > -1:
             by = self.text[position + 2:].strip()
-        
-        position = self.text.find('on')
-        if position > -1:
-            device = self.text[position]
+
         return spotify.play_music(by)
 
     def handle_light_change(self):
@@ -52,7 +41,6 @@ class Pifu:
         return lights.adjust_brightness(False, room)
 
     def process_command(self):
-
         if "song" in self.text:
             self.handle_play_music()
         if "joke" in self.text:
@@ -60,6 +48,8 @@ class Pifu:
             self.speak(joke)
         if "lights" in self.text:
             self.handle_light_change()
+        if "messages" in self.text:
+            self.check_messages()
 
         with open('logging/transcribed_text.txt', 'a+') as f:
             f.write(self.text + "\n")
@@ -86,3 +76,6 @@ class Pifu:
         engine.setProperty('rate', 150)
         engine.say(text)
         engine.runAndWait()
+
+    def check_messages(self):
+        pass

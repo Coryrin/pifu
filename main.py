@@ -2,6 +2,7 @@ import os
 from classes.pifu import Pifu
 
 BASE_DIR = os.getcwd()
+
 def main():
     pifu = Pifu()
     while pifu.listen_to_speech:
